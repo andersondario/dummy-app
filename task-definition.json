@@ -22,5 +22,6 @@
   "placementConstraints": [],
   "family": "dummy-app",
   "memory": "512",
-  "cpu": "256"
+  "cpu": "256",
+  "executionRoleArn": "arn:aws:iam::167947257750:role/ecsTaskExecutionRole"
 }
