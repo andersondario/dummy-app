@@ -7,7 +7,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REPOSITORY: 167947257750.dkr.ecr.us-east-1.amazonaws.com/dummy-app
+  ECR_REPOSITORY: dummy-app
   ECS_SERVICE: dummy-app-service
   ECS_CLUSTER: cluster-qa
   ECS_TASK_DEFINITION: task-definition.json
