@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const logger = require('./logger/logger');
 
 const app = express();
-const port = process.env.PORT || 80
+const port = 3000
 
 app.use(bodyParser.json());
 

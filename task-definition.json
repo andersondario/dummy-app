@@ -11,10 +11,19 @@
       "essential": true,
       "portMappings": [
         {
-          "containerPort": 80,
+          "containerPort": 3000,
           "protocol": "tcp"
         }
-      ]
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/dummy-app",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
     }
   ],
   "volumes": [],
