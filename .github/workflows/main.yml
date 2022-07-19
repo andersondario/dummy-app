@@ -96,12 +96,30 @@ jobs:
         wait-for-service-stability: true
     outputs:
       task-definition: ${{ steps.task-def.outputs.task-definition }}
-      
+  
+  infraPROD:
+    name: Provisioning PROD infra
+    runs-on: ubuntu-latest
+    needs: deployQA
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+      - name: Terraform PROD Infra
+        run: |
+          cd infra/production
+          terraform init
+          terraform plan
+          terraform apply -auto-approve
+
   deployPROD:
     name: Deploy PROD
     runs-on: ubuntu-latest
     environment: prod
-    needs: deployQA
+    needs: [deployQA, infraPROD]
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
