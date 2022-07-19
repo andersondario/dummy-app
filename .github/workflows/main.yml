@@ -33,7 +33,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
 
       - name: Build, tag, and push image to Amazon ECR
-        id: build-image
+        id: buildimage
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
@@ -41,8 +41,9 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=appimage::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "${{ steps.buildimage.outputs.appimage }}"
     outputs:
-      appimage:  ${{ steps.build-image.outputs.appimage }}
+      appimage:  ${{ steps.buildimage.outputs.appimage }}
 
   deployQA:
     name: Deploy QA
@@ -52,7 +53,7 @@ jobs:
     steps:
     - name: Print Image
       run: |
-        echo "Ouuuputs ${{ needs.build.outputs.appimage }}"
+        echo "Outputs ${{ needs.build.outputs.appimage }}"
         echo "The image is ${{ needs.build.outputs.appimage }}"
     - name: Create new Task Definition Version
       id: task-def
