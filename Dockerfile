@@ -7,4 +7,6 @@ RUN npm install
 
 USER node
 
+EXPOSE 80
+
 CMD ["npm", "start"]

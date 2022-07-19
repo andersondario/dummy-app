@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "start": "node app.js"
+        "start": "node app.js",
+        "start-prod": "NODE_ENV=production node app.js"
     },
     "dependencies": {
         "express": "^4.13.3"
