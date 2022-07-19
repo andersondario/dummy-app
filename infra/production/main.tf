@@ -21,7 +21,8 @@ provider "aws" {
 }
 
 module "ecs" {
-    source     = "github.com/andersondario/terraform-sample//modules/aws/ecs"  
-    cluster_name   = "cluster-prod"
-    app_count = 1
+    source       = "github.com/andersondario/terraform-sample//modules/aws/ecs"  
+    app_name     = "dummy-app"
+    cluster_name = "cluster-prod"
+    app_count    = 2
 }
