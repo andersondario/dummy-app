@@ -21,7 +21,7 @@ provider "aws" {
 }
 
 module "ecs" {
-    source     = "github.com/andersondario/terraform-sample//modules/aws/ecs?ref=v1.2.0modules/aws/ecs"  
+    source     = "github.com/andersondario/terraform-sample//modules/aws/ecs"  
     cluster_name   = "cluster-qa"
     app_count = 1
 }
