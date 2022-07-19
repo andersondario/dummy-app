@@ -7,8 +7,8 @@ on:
     - 'master'
 
 jobs:
-  build:
-    name: Build
+  pr:
+    name: Pull Request Validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,6 +22,7 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
       - name: Terraform Validate Dev
         run: |
+          terraform init
           cd infra/development
           terraform validate
           cd ../
