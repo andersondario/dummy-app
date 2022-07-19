@@ -1,0 +1,31 @@
+
+name: pullrequest
+
+on:
+  pull_request:
+    branches: 
+    - 'master'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: ghe-actions/dockerfile-validator@v1
+        with:
+          dockerfile: 'Dockerfile'
+          lint: 'hadolint'
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
+      - name: Terraform Validate Dev
+        run: |
+          cd infra/development
+          terraform validate
+          cd ../
+      - name: Terraform Validate PROD
+        run: |
+          cd infra/production
+          terraform validate
