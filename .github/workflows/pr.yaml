@@ -22,11 +22,12 @@ jobs:
           cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
       - name: Terraform Validate Dev
         run: |
-          terraform init
           cd infra/development
+          terraform init
           terraform validate
           cd ../
       - name: Terraform Validate PROD
         run: |
           cd infra/production
+          terraform init
           terraform validate
