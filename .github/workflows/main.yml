@@ -131,7 +131,7 @@ jobs:
     - name: Deploy Amazon ECS task definition PROD
       uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
       with:
-        task-definition: ${{ needs.task-def.outputs.task-definition }}
+        task-definition: ${{ needs.deployQS.task-def.outputs.task-definition }}
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER_PREFIX }}-prod
         wait-for-service-stability: true
