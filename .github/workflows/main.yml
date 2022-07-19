@@ -71,7 +71,7 @@ jobs:
     name: Deploy QA
     runs-on: ubuntu-latest
     environment: qa
-    needs: build
+    needs: [build, infraQA]
     steps:
     - name: Checkout
       uses: actions/checkout@v3
