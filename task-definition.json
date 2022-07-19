@@ -5,13 +5,14 @@
   "containerDefinitions": [
     {
       "name": "dummy-app",
-      "image": "dummy-app:latest",
+      "image": "167947257750.dkr.ecr.us-east-1.amazonaws.com/dummy-app",
       "memory": 256,
       "cpu": 256,
       "essential": true,
       "portMappings": [
         {
           "containerPort": 3000,
+          "hostPort": 3000,
           "protocol": "tcp"
         }
       ],
