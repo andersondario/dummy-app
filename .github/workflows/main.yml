@@ -48,6 +48,7 @@ jobs:
   infraQA:
     name: Provisioning QA infraQA
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
