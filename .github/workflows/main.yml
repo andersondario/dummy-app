@@ -70,8 +70,8 @@ jobs:
     environment: prod
     needs: deployQA
     steps:
-    - name: approval
-      id: Confirm deploy to PROD
+    - name: Confirm deploy toPROD
+      id: appv-prd
       uses: trstringer/manual-approval@v1
       with:
         secret: ${{ github.TOKEN }}
