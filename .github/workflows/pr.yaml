@@ -7,8 +7,8 @@ on:
     - 'master'
 
 jobs:
-  build:
-    name: Build
+  pr:
+    name: Pull Request Validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,9 +23,11 @@ jobs:
       - name: Terraform Validate Dev
         run: |
           cd infra/development
+          terraform init
           terraform validate
           cd ../
       - name: Terraform Validate PROD
         run: |
           cd infra/production
+          terraform init
           terraform validate
