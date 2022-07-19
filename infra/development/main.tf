@@ -9,7 +9,7 @@ terraform {
     backend "remote" {
 		organization = "andersondario"
 		workspaces {
-			name = "dummy-app-qa" 
+			name = "dummy-app-development" 
 		}
 	}
 }

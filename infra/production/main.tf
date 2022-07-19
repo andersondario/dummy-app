@@ -9,7 +9,7 @@ terraform {
     backend "remote" {
 		organization = "andersondario"
 		workspaces {
-			name = "dummy-app-prod" 
+			name = "dummy-app-production" 
 		}
 	}
 }
@@ -21,7 +21,7 @@ provider "aws" {
 }
 
 module "ecs" {
-    source     = "github.com/andersondario/terraform-sample//modules/aws/ecs?ref=v1.2.0modules/aws/ecs"  
+    source     = "github.com/andersondario/terraform-sample//modules/aws/ecs"  
     cluster_name   = "cluster-prod"
     app_count = 1
 }
