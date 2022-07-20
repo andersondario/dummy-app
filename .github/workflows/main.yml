@@ -26,7 +26,9 @@ jobs:
         run: |
           echo "LATEST_TASK_DEFINITION_ARN=$(aws ecs list-task-definitions --family-prefix ${{ env.APP_NAME }} --sort DESC --max-items 1 | grep arn | awk '{ print $2 }')" >> $GITHUB_ENV
           echo $LATEST_TASK_DEFINITION_ARN
-          aws ecs update-service --cluster ${{ env.ECS_CLUSTER_PREFIX }}-prod --service ${{ env.ECS_SERVICE }} --task-definition $LATEST_TASK_DEFINITION_ARN
+          env
+          aws ecs list-task-definitions --family-prefix ${{ env.APP_NAME }} --sort DESC --max-items 1 | grep arn | awk '{ print $2 }'
+          aws ecs update-service --cluster ${{ env.ECS_CLUSTER_PREFIX }}-prod --service ${{ env.ECS_SERVICE }} --task-definition {{ env.LATEST_TASK_DEFINITION_ARN }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
