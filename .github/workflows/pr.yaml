@@ -17,17 +17,3 @@ jobs:
         with:
           dockerfile: 'Dockerfile'
           lint: 'hadolint'
-      - uses: hashicorp/setup-terraform@v2
-        with:
-          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-      - name: Terraform Validate Dev
-        run: |
-          cd infra/development
-          terraform init
-          terraform validate
-          cd ../
-      - name: Terraform Validate PROD
-        run: |
-          cd infra/production
-          terraform init
-          terraform validate
