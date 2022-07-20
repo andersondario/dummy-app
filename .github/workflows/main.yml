@@ -70,19 +70,21 @@ jobs:
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ needs.build.outputs.appimage }}
 
+    - name: Rename Task Definition
+      run: mv ${{ steps.task-def.outputs.task-definition }} task-definition-final.json
+
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
       with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        task-definition: task-definition-final.json
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER_PREFIX }}-qa
         wait-for-service-stability: true
+    
     - uses: actions/upload-artifact@v3
       with:
         name: task-definition
-        path: ${{ steps.task-def.outputs.task-definition }}
-    outputs:
-      task-definition: ${{ steps.task-def.outputs.task-definition }}
+        path: task-definition-final.json
 
   deployPROD:
     name: Deploy PROD
@@ -97,13 +99,15 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
         mask-aws-account-id: no
+        
     - uses: actions/download-artifact@v3
       with:
         name: task-definition
+
     - name: Deploy Amazon ECS task definition PROD
       uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
       with:
-        task-definition: ${{ needs.deployQA.outputs.task-definition }}
+        task-definition: task-definition-final.json
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER_PREFIX }}-prod
         wait-for-service-stability: true
@@ -114,6 +118,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.36.0
       env:
