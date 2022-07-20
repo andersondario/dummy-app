@@ -1,3 +1,5 @@
+[![main](https://github.com/andersondario/dummy-app/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/andersondario/dummy-app/actions/workflows/main.yml)
+
 ## Dummy APP
 This is a simple project to deploy an Node.js application, using Github Actions, Terraform Cloud and Amazon. 
 
@@ -13,3 +15,4 @@ The image below shows de Github Action definition for each workflow.
 3. Promote task definition deployed on QA env to PROD. This steps require manual approval.
 4. Tag the repo.
 ![architecture](assets/app-cicd-app.drawio.png "Dummy App CICD")
+
