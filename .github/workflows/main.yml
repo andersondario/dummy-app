@@ -99,18 +99,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ env.AWS_REGION }}
         mask-aws-account-id: no
-        
-    - uses: actions/download-artifact@v3
-      with:
-        name: task-definition
-
+      
     - name: Deploy Amazon ECS task definition PROD
-      uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
-      with:
-        task-definition: task-definition-final.json
-        service: ${{ env.ECS_SERVICE }}
-        cluster: ${{ env.ECS_CLUSTER_PREFIX }}-prod
-        wait-for-service-stability: true
+      run: |
+        aws ecs update-service --cluster cluster-prod --service dummy-app-service --task-definition $(aws ecs list-task-definitions --family-prefix dummy-app --sort DESC --max-items 1 | grep arn | awk '{ print $2 }')
   tag:
     name: Generate TAG
     runs-on: ubuntu-latest
@@ -118,7 +110,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-      
+
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.36.0
       env:
