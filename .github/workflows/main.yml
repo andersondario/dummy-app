@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - 'master'
+    paths-ignore:
+      - '**/README.md'
+      - 'assets/**'
 
 env:
   AWS_REGION: us-east-1
@@ -80,11 +83,6 @@ jobs:
         service: ${{ env.ECS_SERVICE }}
         cluster: ${{ env.ECS_CLUSTER_PREFIX }}-qa
         wait-for-service-stability: true
-    
-    - uses: actions/upload-artifact@v3
-      with:
-        name: task-definition
-        path: task-definition-final.json
 
   deployPROD:
     name: Deploy PROD
@@ -100,9 +98,12 @@ jobs:
         aws-region: ${{ env.AWS_REGION }}
         mask-aws-account-id: no
       
-    - name: Deploy Amazon ECS task definition PROD
-      run: |
-        aws ecs update-service --cluster cluster-prod --service dummy-app-service --task-definition $(aws ecs list-task-definitions --family-prefix dummy-app --sort DESC --max-items 1 | grep arn | awk '{ print $2 }')
+    - name: Get Latest Task Definition
+      id: get-task-def
+      run: echo "::set-output name=LATEST_TASK_DEFINITION_ARN::$(aws ecs list-task-definitions --family-prefix dummy-app --sort DESC --max-items 1 | grep arn | awk '{ print $2 }')"
+
+    - name: Deploy Task Definition to PROD
+      run: aws ecs update-service --cluster {{ env.ECS_CLUSTER_PREFIX }}-prod --service {{ env.ECS_SERVICE }} --task-definition ${{ steps.get-task-def.outputs.LATEST_TASK_DEFINITION_ARN }}
   tag:
     name: Generate TAG
     runs-on: ubuntu-latest
