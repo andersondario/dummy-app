@@ -1,4 +1,6 @@
 [![main](https://github.com/andersondario/dummy-app/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/andersondario/dummy-app/actions/workflows/main.yml)
+![Known Vulnerabilities](https://snyk.io/test/github/andersondario/dummy-app/badge.svg)
+
 
 ## Dummy APP
 This is a simple project to deploy an Node.js application, using Github Actions, Terraform Cloud and Amazon. 
